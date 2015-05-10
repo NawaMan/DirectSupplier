@@ -3,57 +3,53 @@ package exam.dssb.supplier.holder.contentholder;
 import java.util.function.Supplier;
 
 /**
- * The switchboard will provide the supplier for startTime.
+ * The switchboard will provide the supplier for the value.
  * 
- * @author  NawaMan
+ * @author NawaMan
  **/
 public class Switchboard {
     
     /** The switchboard instance. */
-    private static Switchboard instance = null;
+    private static Switchboard instance = new Switchboard();
     
     /** Singleton instance */
-    public static Switchboard instance() {
-        return instance(null);
+    public static Switchboard getInstance() {
+        return replaceSwitchboard(null);
+    }
+    
+    /** Singleton instance */
+    public static Switchboard switchboard() {
+        return replaceSwitchboard(null);
     }
     
     /**
      * Change and returns the instance.
      **/
-    public static Switchboard instance(Switchboard instance) {
-        if (Switchboard.instance == null) {
-            if (instance != null) {
-                Switchboard.instance = instance;
-            } else {
-                Switchboard.instance = new Switchboard(()-> System.currentTimeMillis());
-            }
+    protected static Switchboard replaceSwitchboard(Switchboard instance) {
+        if (instance != null) {
+            Switchboard.instance = instance;
         }
         return Switchboard.instance;
     }
     
-    /**
-     * Reset the instance -- only allow for the local classes including the test.
-     **/
-    protected static void resetInstance() {
-        Switchboard.instance = null;
+    public Switchboard() {
+        value = null;
     }
     
-    /**
-     * The supplier for startTime.
-     **/
-    private Supplier<Long> startTimeSupplier;
+    //== Value =========================================================================================================
     
-    /** The constructor. */
-    public Switchboard(
-            Supplier<Long> startTimeSupplier) {
-        this.startTimeSupplier = startTimeSupplier;
-    }
+    public static final String REAL_VALUE = "Real value";
     
     /**
-     * Returns the supplier for start time.
+     * The supplier for value.
      **/
-    public Supplier<Long> getStartTimeSupplier() {
-        return this.startTimeSupplier;
+    protected Supplier<String> value;
+    
+    public Supplier<String> value() {
+        if (this.value == null) {
+            this.value = ()-> REAL_VALUE;
+        }
+        return this.value;
     }
     
 }
