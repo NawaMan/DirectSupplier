@@ -42,6 +42,7 @@ public class Client {
     //== Test ==========================================================================================================
     
     /**
+     * This test method demonstrates that the value can be replaced for testing purposes.
      **/
     @Test
     public void test() {
