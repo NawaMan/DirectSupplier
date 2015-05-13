@@ -1,4 +1,4 @@
-package exam.dssb.supplier.holder.constantholder;
+package direct.supplier.holder._constantholder;
 
 import java.util.function.Supplier;
 
