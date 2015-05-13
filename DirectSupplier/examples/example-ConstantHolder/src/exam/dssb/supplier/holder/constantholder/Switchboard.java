@@ -1,4 +1,4 @@
-package exam.dssb.supplier.holder.contentholder;
+package exam.dssb.supplier.holder.constantholder;
 
 import java.util.function.Supplier;
 

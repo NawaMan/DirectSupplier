@@ -1,11 +1,11 @@
-package exam.dssb.supplier.holder.contentholder;
+package exam.dssb.supplier.holder.constantholder;
 
 import java.util.function.Supplier;
 
 import org.junit.Test;
 
 import static dierct.supplier.holder.ConstantHolder.constant;
-import static exam.dssb.supplier.holder.contentholder.Switchboard.*;
+import static exam.dssb.supplier.holder.constantholder.Switchboard.*;
 import static org.junit.Assert.assertEquals;
 
 /**
