@@ -32,8 +32,19 @@ public class Switchboard {
         return Switchboard.instance;
     }
     
+    public static <T> T using(Switchboard instance, Supplier<T> action) {
+        Switchboard prevValue = Switchboard.instance;
+        try {
+            replaceSwitchboard(instance);
+            T result = action.get();
+            return result;
+        } finally {
+            replaceSwitchboard(prevValue);
+        } 
+    }
+    
     public Switchboard() {
-        value = null;
+        this.value = null;
     }
     
     //== Value =========================================================================================================

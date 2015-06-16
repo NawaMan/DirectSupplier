@@ -48,11 +48,11 @@ public class Client {
     public void test() {
         // Given...
         String theValue = "Test value";
-        Switchboard.replaceSwitchboard(new Switchboard() {{
+        Switchboard testSwitchboard = new Switchboard() {{
             value = constant(theValue);
-        }});
+        }};
         // When getting the value,
-        String obtainedValue = Switchboard.switchboard().value().get();
+        String obtainedValue = using(testSwitchboard, ()-> new Client().getValue());
         // The value should star
         assertEquals(theValue, obtainedValue);
     }
