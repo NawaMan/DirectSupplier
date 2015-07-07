@@ -42,4 +42,11 @@ public class ConstantHolder<V>
         return new ConstantHolder<T>(value);
     }
     
+    /**
+     * Create and return a new {@code ConstantHolder}.
+     **/
+    public static <T> ConstantHolder<T> of(T value) {
+        return new ConstantHolder<T>(value);
+    }
+    
 }
