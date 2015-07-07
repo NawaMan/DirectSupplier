@@ -5,6 +5,8 @@ import java.util.function.Supplier;
 /**
  * Constant holder can hold a value which will never change.
  * 
+ * This holder can be used to implement something equivalent to an eager application scope bean.
+ * 
  * @author NawaMan
  **/
 public class ConstantHolder<V>

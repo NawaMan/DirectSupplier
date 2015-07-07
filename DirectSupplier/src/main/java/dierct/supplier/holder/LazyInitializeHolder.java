@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 /**
  * Lazy Initialize holder initializes the value on the first request.
  * 
+ * This holder can be used to implement something equivalent to an lazy-loaded application scope bean.
+ * 
  * @author NawaMan
  **/
 public class LazyInitializeHolder<V> implements Supplier<V> {
