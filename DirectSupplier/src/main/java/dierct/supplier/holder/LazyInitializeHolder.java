@@ -10,6 +10,14 @@ import java.util.function.Supplier;
  * 
  * This holder can be used to implement something equivalent to an lazy-loaded application scope bean.
  * 
+ * The implementation ensures that the value is only initialized only once even if it was accessed from multiple
+ *   threads.
+ * 
+ * NOTE: This holder has three states.
+ *         1. Uninitialized -- isInitialized is null.
+ *         2. Initializing  -- isInitialized is false.
+ *         3. Initialized   -- isInitialized is true.
+ * 
  * @author NawaMan
  **/
 public class LazyInitializeHolder<V> implements Supplier<V> {
