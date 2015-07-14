@@ -2,14 +2,14 @@ package direct.supplier.holder._lazyinitializeholder;
 
 import static org.junit.Assert.assertEquals;
 
+import static dierct.supplier.holder.LazyInitializeHolder.*;
+
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.function.Supplier;
 
 import org.junit.Test;
-
-import dierct.supplier.holder.LazyInitializeHolder;
 
 
 public class Client {
@@ -23,7 +23,7 @@ public class Client {
      * 
      * This holder makes the configuration behave like a lazy application scope in JEE.
      **/
-    private static final Supplier<Map<String, String>> config = new LazyInitializeHolder<>(()-> {
+    private static final Supplier<Map<String, String>> config = lazyInitialize(()-> {
         return ConfigReader.getInstance().getConfig();
     });
     
