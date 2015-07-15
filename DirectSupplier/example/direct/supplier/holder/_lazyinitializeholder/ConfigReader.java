@@ -10,20 +10,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConfigReader {
     
-    private static final ConfigReader instance = new ConfigReader();
-    
-    public static final ConfigReader getInstance() {
-        return instance;
-    }
-    
-    
     private final AtomicInteger readCounter = new AtomicInteger(0);
     
     private final AtomicInteger loadCounter = new AtomicInteger(0);
     
     private Map<String, String> config = null;
     
-    private ConfigReader() {
+    public ConfigReader() {
         
     }
     

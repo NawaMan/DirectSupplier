@@ -12,19 +12,25 @@ import java.util.function.Supplier;
 import org.junit.Test;
 
 
+/**
+ * Example
+ * 
+ * ConfigReader which read the configurations does not have to be thread-safe
+ *   and it does not have to be singleton.
+ * Using {@link LazyInitializeHolder}, the configuration can be accessed in the way that its initialization is only
+ *   made when needed and only made once no many how many thread are trying to access it.
+ * 
+ * This holder makes the configuration behave like a lazy application scope in JEE.
+ **/
+
 public class Client {
     
-    /**
-     * The idea here is that ConfigReader which actually do the reading of the configuration does not have to be
-     *   thread-safe.
-     * And it does not have to be singleton.
-     * Using {@link LazyInitializeHolder}, the configuration can be accessed in the way that its initialization is only
-     *   made when needed and only made once no many how many thread are trying to access it.
-     * 
-     * This holder makes the configuration behave like a lazy application scope in JEE.
-     **/
+    // This is only needed for the test method to access.
+    private static ConfigReader configReader;
+    
     private static final Supplier<Map<String, String>> config = lazyInitialize(()-> {
-        return ConfigReader.getInstance().getConfig();
+        configReader = new ConfigReader();
+        return configReader.getConfig();
     });
     
     public Map<String, String> getConfigMap() {
@@ -57,8 +63,8 @@ public class Client {
     @Test
     public void test() throws InterruptedException {
         // Precondition - If this is not right, the test may be moo.
-        assertEquals(0, ConfigReader.getInstance().getLoadCount());
-        assertEquals(0, ConfigReader.getInstance().getReadCount());
+        assertEquals(0, configReader.getLoadCount());
+        assertEquals(0, configReader.getReadCount());
         
         // Given 1000 thread are trying to access the configuration map.
         int count = 1000;
@@ -77,8 +83,8 @@ public class Client {
         waitToStart(gate);
         done.await();
         
-        assertEquals(1, ConfigReader.getInstance().getLoadCount());
-        assertEquals(1, ConfigReader.getInstance().getReadCount());
+        assertEquals(1, configReader.getLoadCount());
+        assertEquals(1, configReader.getReadCount());
         
         String config = new Client().getConfigMap().toString();
         assertEquals("{one=1, three=3, two=2}", config);
