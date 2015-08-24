@@ -33,7 +33,8 @@ public class Client {
      * If the value is a functionality-providing interface, it will be the default implementation
      *     such as actually going to the database or network.
      **/
-    public static void main(String[] args) {
+    public static void main(
+            final String[] args) {
         String theValue      = Switchboard.REAL_VALUE;
         String obtainedValue = new Client().getValue();
         System.out.println("Value: " + obtainedValue);

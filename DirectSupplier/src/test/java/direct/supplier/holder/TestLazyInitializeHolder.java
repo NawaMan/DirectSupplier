@@ -15,7 +15,8 @@ import dierct.supplier.holder.LazyInitializeHolder;
 public class TestLazyInitializeHolder {
     
     @Test
-    public void ensureInitializeOnce() throws Exception {
+    public void ensureInitializeOnce()
+                throws Exception {
         final AtomicInteger     count           = new AtomicInteger(5);
         final ArrayList<String> allInitialized  = new ArrayList<>();
         
@@ -60,7 +61,8 @@ public class TestLazyInitializeHolder {
         assertEquals("The value should be the one that is initialized.", allInitialized.get(0), value);
     }
     
-    protected void waitToStartAtTheSameTime(CyclicBarrier gate) {
+    protected void waitToStartAtTheSameTime(
+            final CyclicBarrier gate) {
         try {
             gate.await();
         } catch (Exception e) {
@@ -69,7 +71,8 @@ public class TestLazyInitializeHolder {
     }
     
     @Test
-    public void testOverrideInterit() throws Exception {
+    public void testOverrideInterit()
+                throws Exception {
         String value = "9876543210";
         LazyInitializeHolder<String> strRes = new LazyInitializeHolder<String>() {
             protected String initialize() {
@@ -79,7 +82,8 @@ public class TestLazyInitializeHolder {
         assertEquals(value, strRes.get());
     }
     
-    private void sleep(int seconds) {
+    private void sleep(
+            final int seconds) {
         try {
             Thread.sleep(seconds*1000);
         } catch (InterruptedException e) {

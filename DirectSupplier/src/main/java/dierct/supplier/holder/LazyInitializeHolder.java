@@ -20,7 +20,8 @@ import java.util.function.Supplier;
  * 
  * @author NawaMan
  **/
-public class LazyInitializeHolder<V> implements Supplier<V> {
+public class LazyInitializeHolder<V>
+                implements Supplier<V> {
     
     private volatile AtomicBoolean isInitialized = null;
     
@@ -43,7 +44,8 @@ public class LazyInitializeHolder<V> implements Supplier<V> {
      * @param valueProducer
      *          the value producer.
      **/
-    public LazyInitializeHolder(Supplier<? extends V> valueProducer) {
+    public LazyInitializeHolder(
+            final Supplier<? extends V> valueProducer) {
         this.valueProducer = Objects.requireNonNull(valueProducer);
     }
     
@@ -92,14 +94,16 @@ public class LazyInitializeHolder<V> implements Supplier<V> {
     /**
      * Create and return a new {@code LazyInitializeHolder}.
      **/
-    public static <T> LazyInitializeHolder<T> lazyInitialize(Supplier<? extends T> initializer) {
+    public static <T> LazyInitializeHolder<T> lazyInitialize(
+            final Supplier<? extends T> initializer) {
         return new LazyInitializeHolder<T>(initializer);
     }
     
     /**
      * Create and return a new {@code LazyInitializeHolder}.
      **/
-    public static <T> LazyInitializeHolder<T> of(Supplier<? extends T> initializer) {
+    public static <T> LazyInitializeHolder<T> of(
+            final Supplier<? extends T> initializer) {
         return new LazyInitializeHolder<T>(initializer);
     }
     

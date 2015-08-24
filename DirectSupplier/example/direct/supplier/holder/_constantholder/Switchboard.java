@@ -25,14 +25,17 @@ public class Switchboard {
     /**
      * Change and returns the instance.
      **/
-    protected static Switchboard replaceSwitchboard(Switchboard instance) {
+    protected static Switchboard replaceSwitchboard(
+            final Switchboard instance) {
         if (instance != null) {
             Switchboard.instance = instance;
         }
         return Switchboard.instance;
     }
     
-    public static <T> T using(Switchboard instance, Supplier<T> action) {
+    public static <T> T using(
+            final Switchboard instance,
+            final Supplier<T> action) {
         Switchboard prevValue = Switchboard.instance;
         try {
             replaceSwitchboard(instance);

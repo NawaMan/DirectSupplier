@@ -17,8 +17,9 @@ import org.junit.Test;
  * 
  * ConfigReader which read the configurations does not have to be thread-safe
  *   and it does not have to be singleton.
- * Using {@link LazyInitializeHolder}, the configuration can be accessed in the way that its initialization is only
- *   made when needed and only made once no many how many thread are trying to access it.
+ * Using {@link LazyInitializeHolder},
+ *   the configuration can be accessed in the way that its initialization is only made when needed
+ *   and only made once no many how many threads are trying to access it.
  * 
  * This holder makes the configuration behave like a lazy application scope in JEE.
  **/
@@ -45,7 +46,9 @@ public class Client {
      *     such as actually going to the database or network.
      * @throws InterruptedException 
      **/
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(
+            final String[] args)
+                    throws InterruptedException {
         Client client = new Client();
         client.test();
         
@@ -61,7 +64,8 @@ public class Client {
      * @throws InterruptedException 
      **/
     @Test
-    public void test() throws InterruptedException {
+    public void test()
+                throws InterruptedException {
         // Precondition - If this is not right, the test may be moo.
         assertEquals(0, configReader.getLoadCount());
         assertEquals(0, configReader.getReadCount());
@@ -90,7 +94,8 @@ public class Client {
         assertEquals("{one=1, three=3, two=2}", config);
     }
     
-    protected void waitToStart(CyclicBarrier gate) {
+    protected void waitToStart(
+            final CyclicBarrier gate) {
         try {
             gate.await();
         } catch (Exception e) {

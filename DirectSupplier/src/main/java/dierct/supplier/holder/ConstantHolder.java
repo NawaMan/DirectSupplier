@@ -10,7 +10,7 @@ import java.util.function.Supplier;
  * @author NawaMan
  **/
 public class ConstantHolder<V>
-        implements Supplier<V> {
+            implements Supplier<V> {
     
     private final V value;
     
@@ -40,14 +40,16 @@ public class ConstantHolder<V>
     /**
      * Create and return a new {@code ConstantHolder}.
      **/
-    public static <T> ConstantHolder<T> constant(T value) {
+    public static <T> ConstantHolder<T> constant(
+            final T value) {
         return new ConstantHolder<T>(value);
     }
     
     /**
      * Create and return a new {@code ConstantHolder}.
      **/
-    public static <T> ConstantHolder<T> of(T value) {
+    public static <T> ConstantHolder<T> of(
+            final T value) {
         return new ConstantHolder<T>(value);
     }
     
