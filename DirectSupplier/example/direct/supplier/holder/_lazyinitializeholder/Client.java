@@ -66,6 +66,8 @@ public class Client {
     @Test
     public void test()
                 throws InterruptedException {
+        configReader = new ConfigReader();
+        
         // Precondition - If this is not right, the test may be moo.
         assertEquals(0, configReader.getLoadCount());
         assertEquals(0, configReader.getReadCount());
