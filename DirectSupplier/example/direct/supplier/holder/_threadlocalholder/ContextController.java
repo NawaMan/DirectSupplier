@@ -1,47 +1,29 @@
 package direct.supplier.holder._threadlocalholder;
 
+import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Optional;
 
 public class ContextController {
     
-    private PrintStream out = System.out;
-    
-    private PrintStream err = System.err;
+    private ByteArrayOutputStream buffer = new ByteArrayOutputStream();
     
     private Context context = new Context() {
         
-        @Override
-        public PrintStream out() {
-            return ContextController.this.out;
-        }
+        private PrintStream out = new PrintStream(buffer);
         
         @Override
-        public PrintStream err() {
-            return ContextController.this.err;
+        public PrintStream out() {
+            return out;
         }
         
     };
     
-    
-    public PrintStream out() {
-        return this.out;
-    }
-    
-    public PrintStream err() {
-        return this.err;
-    }
-    
-    public void out(PrintStream out) {
-        this.out = Optional.ofNullable(out).orElse(System.out);
-    }
-    
-    public void err(PrintStream err) {
-        this.err = Optional.ofNullable(err).orElse(System.err);
-    }
-    
     public Context getContext() {
         return this.context;
+    }
+    
+    public String getBufferedData() {
+        return this.buffer.toString();
     }
     
 }

@@ -6,6 +6,4 @@ public interface Context {
     
     public PrintStream out();
     
-    public PrintStream err();
-    
 }

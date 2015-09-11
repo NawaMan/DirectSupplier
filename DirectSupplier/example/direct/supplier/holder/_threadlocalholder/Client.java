@@ -1,47 +1,89 @@
 package direct.supplier.holder._threadlocalholder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.junit.Test;
 
 import dierct.supplier.holder.ThreadLocalHolder;
 
+/**
+ * This example shows that a resource supplier used in separate thread can be isolated.
+ * 
+ * @author NawaMan
+ */
 public class Client {
     
     @Test
     public void test() throws InterruptedException {
         
-        int testSize = 10;
+        CyclicBarrier gate = new CyclicBarrier(2 + 1);
+        CountDownLatch latch = new CountDownLatch(2);
         
-        CyclicBarrier gate = new CyclicBarrier(testSize + 1);
-        CountDownLatch latch = new CountDownLatch(testSize);
+        Supplier<ContextController> contextController = ThreadLocalHolder.of(()->new ContextController());
         
-        AtomicInteger threadIndex = new AtomicInteger();
+        AtomicInteger count = new AtomicInteger();
         
-        for(int i = 0; i < testSize; i++) {
-            String prefix = "#" + threadIndex.getAndIncrement() + ": ";
+        new Thread(()->{
+            waitToStartAtTheSameTime(gate);
             
-            newExecution(prefix, context-> {
-                waitToStartAtTheSameTime(gate);
-                
-                // The execution does not need to care if the context is thread safe.
-                
-                context.get().out().println("Hello");
-                context.get().out().println("World");
-                context.get().out().println("!!!");
-                
-                latch.countDown();
-            });
-        }
+            String str = "Hello there!";
+            
+            Context context = contextController.get().getContext();
+            
+            context.out().println(str);
+            count.incrementAndGet();
+            
+            sleep(100);
+            
+            context.out().println(str);
+            
+            // Ensure that the first print got both thread are done.
+            assertTrue(count.get() > 1);
+            // Ensure that the buffer is only for this thread and not interfere with another thread.
+            assertEquals(str + "\n" + str + "\n", contextController.get().getBufferedData());
+            
+            latch.countDown();
+        }).start();
+        
+        
+        new Thread(()->{
+            waitToStartAtTheSameTime(gate);
+            
+            String str = "Hi there!";
+            
+            Context context = contextController.get().getContext();
+            
+            context.out().println(str);
+            count.incrementAndGet();
+            
+            sleep(100);
+            
+            context.out().println(str);
+            
+            // Ensure that the first print got both thread are done.
+            assertTrue(count.get() > 1);
+            // Ensure that the buffer is only for this thread and not interfere with another thread.
+            assertEquals(str + "\n" + str + "\n", contextController.get().getBufferedData());
+            
+            latch.countDown();
+        }).start();
         
         waitToStartAtTheSameTime(gate);
         latch.await();
+    }
+    
+    protected void sleep(long pause) {
+        try {
+            Thread.sleep(pause);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     protected static void waitToStartAtTheSameTime(
@@ -51,26 +93,6 @@ public class Client {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    private static void newExecution(String prefix, Consumer<Supplier<Context>> runner) {
-        new Thread(()-> {
-            ContextController controller = new ContextController();
-            
-            StringBuffer outBuff   = new StringBuffer();
-            PrintStream  outStream = new PrintStream(new ByteArrayOutputStream()) {
-                @Override
-                public void println(String x) {
-                    outBuff.append(prefix + x + "\n");
-                }
-            };
-            controller.out(outStream);
-            
-            Supplier<Context> context = ThreadLocalHolder.of(()->controller.getContext());
-            runner.accept(context);
-            
-            System.out.println(outBuff.toString().replaceAll("#[0-9]: ", ""));
-        }).start();
     }
     
 }
