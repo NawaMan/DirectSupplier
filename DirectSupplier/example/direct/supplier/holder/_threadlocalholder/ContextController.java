@@ -2,6 +2,7 @@ package direct.supplier.holder._threadlocalholder;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.function.Consumer;
 
 public class ContextController {
     
@@ -22,8 +23,9 @@ public class ContextController {
         return this.context;
     }
     
-    public String getBufferedData() {
-        return this.buffer.toString();
+    public String run(Consumer<Context> body) {
+        body.accept(getContext());
+        return buffer.toString();
     }
     
 }

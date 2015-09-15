@@ -34,42 +34,43 @@ public class Client {
             
             String str = "Hello there!";
             
-            Context context = contextController.get().getContext();
-            
-            context.out().println(str);
-            count.incrementAndGet();
-            
-            sleep(100);
-            
-            context.out().println(str);
+            // Same supplier (contextController) but return (from get()) with difference object. One for each thread.
+            String buff = contextController.get().run(context->{
+                context.out().println(str);
+                count.incrementAndGet();
+                
+                sleep(100);
+                
+                context.out().println(str);
+            });
             
             // Ensure that the first print got both thread are done.
             assertTrue(count.get() > 1);
             // Ensure that the buffer is only for this thread and not interfere with another thread.
-            assertEquals(str + "\n" + str + "\n", contextController.get().getBufferedData());
+            assertEquals(str + "\n" + str + "\n", buff);
             
             latch.countDown();
         }).start();
-        
         
         new Thread(()->{
             waitToStartAtTheSameTime(gate);
             
             String str = "Hi there!";
             
-            Context context = contextController.get().getContext();
-            
-            context.out().println(str);
-            count.incrementAndGet();
-            
-            sleep(100);
-            
-            context.out().println(str);
+            // Same supplier (contextController) but return (from get()) with difference object. One for each thread.
+            String buff = contextController.get().run(context->{
+                context.out().println(str);
+                count.incrementAndGet();
+                
+                sleep(100);
+                
+                context.out().println(str);
+            });
             
             // Ensure that the first print got both thread are done.
             assertTrue(count.get() > 1);
             // Ensure that the buffer is only for this thread and not interfere with another thread.
-            assertEquals(str + "\n" + str + "\n", contextController.get().getBufferedData());
+            assertEquals(str + "\n" + str + "\n", buff);
             
             latch.countDown();
         }).start();
