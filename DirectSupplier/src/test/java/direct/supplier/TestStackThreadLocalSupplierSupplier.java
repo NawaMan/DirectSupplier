@@ -1,6 +1,9 @@
 package direct.supplier;
 
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -8,9 +11,9 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.junit.Test;
 
-import dierct.supplier.StackThreadLocalSupplier;
+import dierct.supplier.supplier.StackThreadLocalSupplierSupplier;
 
-public class TestStackThreadLocalSupplier {
+public class TestStackThreadLocalSupplierSupplier {
     
     static class OutPrint {
         
@@ -38,8 +41,8 @@ public class TestStackThreadLocalSupplier {
     }
     
     @Test
-    public void test() throws InterruptedException {
-        StackThreadLocalSupplier<OutPrint> supplier = StackThreadLocalSupplier.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
+    public void testStackableAndThreadSafe() throws InterruptedException {
+        StackThreadLocalSupplierSupplier<OutPrint> supplier = StackThreadLocalSupplierSupplier.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
         
         int testSize = 10;
         
@@ -54,22 +57,22 @@ public class TestStackThreadLocalSupplier {
                 
                 supplier.pushNew();
                 OutPrint rootPrint = supplier.peek();
-                supplier.get().get().println("one");
+                supplier.get().println("one");
                 sleep(random.nextInt(10));
                 
                 supplier.pushNew();
-                supplier.get().get().println("two");
-                supplier.get().get().println("three");
+                supplier.get().println("two");
+                supplier.get().println("three");
                 sleep(random.nextInt(10));
                 
                 supplier.pushNew();
-                supplier.get().get().println("four");
-                supplier.get().get().println("five");
+                supplier.get().println("four");
+                supplier.get().println("five");
                 sleep(random.nextInt(10));
                 
                 supplier.pop();
-                supplier.get().get().println("six");
-                supplier.get().get().println("seven");
+                supplier.get().println("six");
+                supplier.get().println("seven");
                 
                 // Observe that
                 //   1. There are multiple thread but the value never mixed.
@@ -89,6 +92,16 @@ public class TestStackThreadLocalSupplier {
         }
         waitToStartAtTheSameTime(gate);
         latch.await();
+    }
+    
+    /**
+     * Assert that the returned supplier can't be used to gain access to the {@link StackThreadLocalSupplierSupplier}.
+     */
+    @Test
+    public void ensureUnaccessible() {
+        StackThreadLocalSupplierSupplier<OutPrint> supplier = StackThreadLocalSupplierSupplier.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
+        
+        assertThat(supplier.getSupplier(), not(instanceOf(StackThreadLocalSupplierSupplier.class)));
     }
     
     private void waitToStartAtTheSameTime(

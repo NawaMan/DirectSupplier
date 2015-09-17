@@ -15,6 +15,8 @@ import dierct.supplier.holder.ThreadLocalHolder;
 /**
  * This example shows that a resource supplier used in separate thread can be isolated.
  * 
+ * Similar technique is used to provide semi-global variable access to context, for example, FacesContext.
+ * 
  * @author NawaMan
  */
 public class Client {

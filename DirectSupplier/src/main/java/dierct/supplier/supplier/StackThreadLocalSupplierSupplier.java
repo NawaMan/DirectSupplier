@@ -1,4 +1,4 @@
-package dierct.supplier;
+package dierct.supplier.supplier;
 
 import java.util.Objects;
 import java.util.Stack;
@@ -14,7 +14,7 @@ import java.util.function.Supplier;
  * 
  * @author NawaMan
  */
-public class StackThreadLocalSupplier<R> implements Supplier<Supplier<R>> {
+public class StackThreadLocalSupplierSupplier<R> implements SupplierSupplier<R> {
     
     private ThreadLocal<Stack<R>> resource = new ThreadLocal<Stack<R>>() {
         @Override
@@ -31,7 +31,7 @@ public class StackThreadLocalSupplier<R> implements Supplier<Supplier<R>> {
      * @param supplier  the supplier to create new instance for each element.
      * @return  the stack thread local supplier.
      **/
-    public StackThreadLocalSupplier(
+    public StackThreadLocalSupplierSupplier(
             final Supplier<R> supplier) {
         Objects.requireNonNull(supplier);
         
@@ -43,24 +43,18 @@ public class StackThreadLocalSupplier<R> implements Supplier<Supplier<R>> {
      * @param function  the function to create new instance for each element given the previous instance.
      * @return  the stack thread local supplier.
      **/
-    public StackThreadLocalSupplier(
+    public StackThreadLocalSupplierSupplier(
             final Function<R, R> function) {
         this.creator = Objects.requireNonNull(function);
     }
     
-    /**
-     * Get the supplier to access to the top element of the stack.
-     * 
-     * @return the supplier to the top element of the stack.
-     */
-    public Supplier<R> get() {
-        return ()->{
-            if (this.resource.get().isEmpty()) {
-                return null;
-            } else {
-                return this.resource.get().peek();
-            }
-        };
+    @Override
+    public R get() {
+        if (this.resource.get().isEmpty()) {
+            return null;
+        } else {
+            return this.resource.get().peek();
+        }
     }
     
     /**
@@ -128,31 +122,31 @@ public class StackThreadLocalSupplier<R> implements Supplier<Supplier<R>> {
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplier<T> stackThreadLocal(
+    public static <T> StackThreadLocalSupplierSupplier<T> stackThreadLocal(
             final Supplier<T> supplier) {
-        return new StackThreadLocalSupplier<T>(supplier);
+        return new StackThreadLocalSupplierSupplier<T>(supplier);
     }
     
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplier<T> of(
+    public static <T> StackThreadLocalSupplierSupplier<T> of(
             final Supplier<T> supplier) {
-        return new StackThreadLocalSupplier<T>(supplier);
+        return new StackThreadLocalSupplierSupplier<T>(supplier);
     }
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplier<T> stackThreadLocal(
+    public static <T> StackThreadLocalSupplierSupplier<T> stackThreadLocal(
             final Function<T,T> creator) {
-        return new StackThreadLocalSupplier<T>(creator);
+        return new StackThreadLocalSupplierSupplier<T>(creator);
     }
     
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplier<T> of(
+    public static <T> StackThreadLocalSupplierSupplier<T> of(
             final Function<T,T> creator) {
-        return new StackThreadLocalSupplier<T>(creator);
+        return new StackThreadLocalSupplierSupplier<T>(creator);
     }
 }
