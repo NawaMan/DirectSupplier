@@ -1,6 +1,7 @@
 package dierct.supplier.holder;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
@@ -12,12 +13,19 @@ import java.util.function.Supplier;
  * The implementation ensures that the value is only initialized only once even if it was accessed from multiple
  *   threads.
  * 
+ * NOTE: This holder has three states.
+ *         1. Uninitialized -- isInitialized is null.
+ *         2. Initializing  -- isInitialized is false.
+ *         3. Initialized   -- isInitialized is true.
+ * 
  * @author NawaMan
  **/
 public class LazyInitializeHolder<V>
                 implements Supplier<V> {
     
-    private final AtomicReference<Supplier<V>> value = new AtomicReference<>();
+    private volatile AtomicBoolean isInitialized = null;
+    
+    private final AtomicReference<V> value = new AtomicReference<>();
     
     private final Supplier<? extends V> valueProducer;
     
@@ -45,16 +53,28 @@ public class LazyInitializeHolder<V>
     @Override
     public V get() {
         ensureInitialized();
-        final V value = this.value.get().get();
+        final V value = this.value.get();
         return value;
     }
     
     private void ensureInitialized() {
-        this.value.compareAndSet(null, ()->{
+        while ((this.isInitialized == null) || !this.isInitialized.get()) {
+            if (this.isInitialized != null) {
+                continue;
+            }
+            synchronized (this) {
+                if (this.isInitialized != null) {
+                    continue;
+                }
+                
+                this.isInitialized = new AtomicBoolean(false);
+            }
+            
             final V value = initialize();
-            this.value.set(()->value);
-            return value;
-        });
+            this.value.set(value);
+            
+            this.isInitialized.set(true);
+        }
     }
     
     /**

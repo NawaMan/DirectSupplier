@@ -23,7 +23,7 @@ public class TestLazyInitializeHolder {
         class StrSupplier implements Supplier<String> {
             @Override
             public String get() {
-                sleep(1);
+                sleep(5);
                 String initializedValue = "Int-" + count.incrementAndGet();
                 
                 // Record all that are initialized.
@@ -49,13 +49,14 @@ public class TestLazyInitializeHolder {
             }).start();
         }
         
+        waitToStartAtTheSameTime(gate);
+        latch.await();
+        
         // There should only be one initialization.
         String value = lazyInitHolder.get();
         assertEquals("There should be only one initialized.",            1,                     allInitialized.size());
         assertEquals("The value should be the one that is initialized.", allInitialized.get(0), value);
         
-        waitToStartAtTheSameTime(gate);
-        latch.await();
         // After all thread are done, there should still be one value initialized.
         assertEquals("There should be only one initialized.",            1,                     allInitialized.size());
         assertEquals("The value should be the one that is initialized.", allInitialized.get(0), value);
