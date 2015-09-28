@@ -1,9 +1,11 @@
-package dierct.supplier.supplier;
+package dierct.supplier.holder;
 
 import java.util.Objects;
 import java.util.Stack;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import dierct.supplier.SupplierSupplier;
 
 /**
  * This supplier actually can create a holder for stack thread local.
@@ -14,7 +16,8 @@ import java.util.function.Supplier;
  * 
  * @author NawaMan
  */
-public class StackThreadLocalSupplierSupplier<R> implements SupplierSupplier<R> {
+public class StackThreadLocalHolder<R>
+        implements SupplierSupplier<R> {
     
     private ThreadLocal<Stack<R>> resource = new ThreadLocal<Stack<R>>() {
         @Override
@@ -31,7 +34,7 @@ public class StackThreadLocalSupplierSupplier<R> implements SupplierSupplier<R> 
      * @param supplier  the supplier to create new instance for each element.
      * @return  the stack thread local supplier.
      **/
-    public StackThreadLocalSupplierSupplier(
+    public StackThreadLocalHolder(
             final Supplier<R> supplier) {
         Objects.requireNonNull(supplier);
         
@@ -43,7 +46,7 @@ public class StackThreadLocalSupplierSupplier<R> implements SupplierSupplier<R> 
      * @param function  the function to create new instance for each element given the previous instance.
      * @return  the stack thread local supplier.
      **/
-    public StackThreadLocalSupplierSupplier(
+    public StackThreadLocalHolder(
             final Function<R, R> function) {
         this.creator = Objects.requireNonNull(function);
     }
@@ -122,31 +125,32 @@ public class StackThreadLocalSupplierSupplier<R> implements SupplierSupplier<R> 
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplierSupplier<T> stackThreadLocal(
+    public static <T> StackThreadLocalHolder<T> stackThreadLocal(
             final Supplier<T> supplier) {
-        return new StackThreadLocalSupplierSupplier<T>(supplier);
+        return new StackThreadLocalHolder<T>(supplier);
     }
     
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplierSupplier<T> of(
+    public static <T> StackThreadLocalHolder<T> of(
             final Supplier<T> supplier) {
-        return new StackThreadLocalSupplierSupplier<T>(supplier);
-    }
-    /**
-     * Create and return a new {@code StackThreadLocalSupplier}.
-     **/
-    public static <T> StackThreadLocalSupplierSupplier<T> stackThreadLocal(
-            final Function<T,T> creator) {
-        return new StackThreadLocalSupplierSupplier<T>(creator);
+        return new StackThreadLocalHolder<T>(supplier);
     }
     
     /**
      * Create and return a new {@code StackThreadLocalSupplier}.
      **/
-    public static <T> StackThreadLocalSupplierSupplier<T> of(
+    public static <T> StackThreadLocalHolder<T> stackThreadLocal(
             final Function<T,T> creator) {
-        return new StackThreadLocalSupplierSupplier<T>(creator);
+        return new StackThreadLocalHolder<T>(creator);
+    }
+    
+    /**
+     * Create and return a new {@code StackThreadLocalSupplier}.
+     **/
+    public static <T> StackThreadLocalHolder<T> of(
+            final Function<T,T> creator) {
+        return new StackThreadLocalHolder<T>(creator);
     }
 }

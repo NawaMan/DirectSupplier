@@ -1,4 +1,4 @@
-package direct.supplier;
+package direct.supplier.holder;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.IsNot.not;
@@ -11,9 +11,9 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.junit.Test;
 
-import dierct.supplier.supplier.StackThreadLocalSupplierSupplier;
+import dierct.supplier.holder.StackThreadLocalHolder;
 
-public class TestStackThreadLocalSupplierSupplier {
+public class TestStackThreadLocalHolder {
     
     static class OutPrint {
         
@@ -42,7 +42,7 @@ public class TestStackThreadLocalSupplierSupplier {
     
     @Test
     public void testStackableAndThreadSafe() throws InterruptedException {
-        StackThreadLocalSupplierSupplier<OutPrint> supplier = StackThreadLocalSupplierSupplier.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
+        StackThreadLocalHolder<OutPrint> supplier = StackThreadLocalHolder.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
         
         int testSize = 10;
         
@@ -95,13 +95,13 @@ public class TestStackThreadLocalSupplierSupplier {
     }
     
     /**
-     * Assert that the returned supplier can't be used to gain access to the {@link StackThreadLocalSupplierSupplier}.
+     * Assert that the returned supplier can't be used to gain access to the {@link StackThreadLocalHolder}.
      */
     @Test
     public void ensureUnaccessible() {
-        StackThreadLocalSupplierSupplier<OutPrint> supplier = StackThreadLocalSupplierSupplier.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
+        StackThreadLocalHolder<OutPrint> supplier = StackThreadLocalHolder.of(parent->new OutPrint((parent == null) ? "" : "--> ", parent));
         
-        assertThat(supplier.getSupplier(), not(instanceOf(StackThreadLocalSupplierSupplier.class)));
+        assertThat(supplier.getSupplier(), not(instanceOf(StackThreadLocalHolder.class)));
     }
     
     private void waitToStartAtTheSameTime(

@@ -1,4 +1,4 @@
-package dierct.supplier.supplier;
+package dierct.supplier;
 
 import java.util.function.Supplier;
 
