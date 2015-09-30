@@ -34,7 +34,7 @@ public class ChangeableHolder<V>
     }
     
     @Override
-    public V get() {
+    public final V get() {
         return this.value.get();
     }
     
@@ -46,7 +46,7 @@ public class ChangeableHolder<V>
      * @param  value  the value.
      * @return {@code true} if successful.
      */
-    public boolean set(
+    public final boolean set(
             final V value) {
         if (this.key != null) {
             return false;
@@ -65,7 +65,7 @@ public class ChangeableHolder<V>
      * @param  value  the value.
      * @return {@code} true if success.
      */
-    public boolean set(
+    public final boolean set(
             final Object key,
             final V      value) {
         if (this.key == null) {
@@ -87,7 +87,7 @@ public class ChangeableHolder<V>
     public static <T> ChangeableHolder<T> changeable(
             final Object key,
             final T      value) {
-        return new ChangeableHolder<T>(key, value);
+        return of(key, value);
     }
     
     /**

@@ -31,7 +31,7 @@ public class ConstantHolder<V>
      * {@inheritDoc}
      **/
     @Override
-    public V get() {
+    public final V get() {
         return this.value;
     }
     
@@ -42,7 +42,7 @@ public class ConstantHolder<V>
      **/
     public static <T> ConstantHolder<T> constant(
             final T value) {
-        return new ConstantHolder<T>(value);
+        return of(value);
     }
     
     /**

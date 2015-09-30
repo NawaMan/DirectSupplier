@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
-import direct.supplier.holder.LazyInitializeHolder;
+import static direct.supplier.holder.LazyInitializeHolder.*;
 
 public class TestLazyInitializeHolder {
     
@@ -34,7 +34,7 @@ public class TestLazyInitializeHolder {
         
         // Set up threads to access to the holder.
         int testSize = 1000;
-        LazyInitializeHolder<String> lazyInitHolder = new LazyInitializeHolder<>(new StrSupplier());
+        LazyInitializeHolder<String> lazyInitHolder = lazyInitialize(new StrSupplier());
         CyclicBarrier gate = new CyclicBarrier(testSize + 1);
         CountDownLatch latch = new CountDownLatch(testSize);
         for (int i = 0; i < testSize; i++) {
@@ -69,18 +69,6 @@ public class TestLazyInitializeHolder {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-    
-    @Test
-    public void testOverrideInterit()
-                throws Exception {
-        String value = "9876543210";
-        LazyInitializeHolder<String> strRes = new LazyInitializeHolder<String>() {
-            protected String initialize() {
-                return value;
-            }
-        };
-        assertEquals(value, strRes.get());
     }
     
     private void sleep(

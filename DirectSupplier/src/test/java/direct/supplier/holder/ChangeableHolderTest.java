@@ -15,17 +15,27 @@ public class ChangeableHolderTest {
     private ChangeableHolder<String> holder;
     
     private ChangeableHolder<String> createHolder(Object key) {
-        holder = (key != null) ? changeable(key, INIT_VALUE) : changeable(NOKEY, INIT_VALUE);
+        holder = changeable(key, INIT_VALUE);
         return holder;
     }
     
     @Test
     public void whenNoKeyAssigned_anyOneCanChange() {
-        holder = createHolder(null);
+        holder = createHolder(NOKEY);
         assertEquals(INIT_VALUE, holder.get());
         
         holder.set("42");
         assertEquals("42", holder.get());
+    }
+    
+    @Test
+    public void whenNoKeyAssigned_givenKeyWillNotChange() {
+        Object key = new Object();
+        holder = createHolder(NOKEY);
+        assertEquals(INIT_VALUE, holder.get());
+        
+        holder.set(key, "42");
+        assertEquals(INIT_VALUE, holder.get());
     }
     
     @Test

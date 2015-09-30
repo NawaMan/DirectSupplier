@@ -1,6 +1,6 @@
 package direct.supplier.holder;
 
-import java.util.Objects;
+import static java.util.Objects.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
@@ -30,15 +30,6 @@ public class LazyInitializeHolder<V>
     private final Supplier<? extends V> valueProducer;
     
     /**
-     * Default constructor.
-     * 
-     * This should only be used when the {@link LazyInitializeHolder#initialize()} is overridden.
-     **/
-    public LazyInitializeHolder() {
-        this.valueProducer = null;
-    }
-    
-    /**
      * Construct the holder with the producer of the value.
      * 
      * @param valueProducer
@@ -46,12 +37,12 @@ public class LazyInitializeHolder<V>
      **/
     public LazyInitializeHolder(
             final Supplier<? extends V> valueProducer) {
-        this.valueProducer = Objects.requireNonNull(valueProducer);
+        this.valueProducer = requireNonNull(valueProducer);
     }
     
     /** {@inheritDoc} */
     @Override
-    public V get() {
+    public final V get() {
         ensureInitialized();
         final V value = this.value.get();
         return value;
@@ -77,15 +68,8 @@ public class LazyInitializeHolder<V>
         }
     }
     
-    /**
-     * Initialize the value.
-     * 
-     * The default implementation is to ask the value producer to produce the value.
-     * 
-     * @return the initialized value.
-     **/
-    protected V initialize() {
-        final V value = Objects.requireNonNull(this.valueProducer).get();
+    private V initialize() {
+        final V value = requireNonNull(this.valueProducer).get();
         return value;
     }
     
