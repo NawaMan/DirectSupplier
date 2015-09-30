@@ -1,8 +1,7 @@
 package direct.supplier.holder._lazyinitializeholder;
 
 import static org.junit.Assert.assertEquals;
-
-import static dierct.supplier.holder.LazyInitializeHolder.*;
+import static direct.supplier.holder.LazyInitializeHolder.*;
 
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;

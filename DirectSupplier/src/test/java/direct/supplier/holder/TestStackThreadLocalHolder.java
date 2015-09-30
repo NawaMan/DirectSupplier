@@ -11,7 +11,7 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.junit.Test;
 
-import dierct.supplier.holder.StackThreadLocalHolder;
+import direct.supplier.holder.StackThreadLocalHolder;
 
 public class TestStackThreadLocalHolder {
     

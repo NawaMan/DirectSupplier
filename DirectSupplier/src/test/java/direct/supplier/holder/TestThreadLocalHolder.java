@@ -9,7 +9,7 @@ import java.util.concurrent.CyclicBarrier;
 
 import org.junit.Test;
 
-import dierct.supplier.holder.ThreadLocalHolder;
+import direct.supplier.holder.ThreadLocalHolder;
 
 public class TestThreadLocalHolder {
     
@@ -37,7 +37,7 @@ public class TestThreadLocalHolder {
     }
     
     @Test
-    public void testGet_ensureEachThreadHasOne()
+    public void testGet_ensureEachThreadHasOne__thisTestWillTakesUpToFiveSeconds()
                 throws InterruptedException {
         ThreadLocalHolder<Counter> counter = new ThreadLocalHolder<>(Counter::new);
         
@@ -53,7 +53,7 @@ public class TestThreadLocalHolder {
                 
                 for (int c = 0; c < testCount; c++) {
                     assertEquals("The count should goes up by one every time", c + 1, counter.get().count());
-                    sleep(1);
+                    sleep(5);
                 }
                 
                 latch.countDown();

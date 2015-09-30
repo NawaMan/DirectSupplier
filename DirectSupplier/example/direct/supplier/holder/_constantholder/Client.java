@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
-import static dierct.supplier.holder.ConstantHolder.constant;
+import static direct.supplier.holder.ConstantHolder.constant;
 import static direct.supplier.holder._constantholder.Switchboard.using;
 import static direct.supplier.holder._constantholder.Switchboard.switchboard;
 import static org.junit.Assert.assertEquals;

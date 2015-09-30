@@ -1,11 +1,11 @@
-package dierct.supplier.holder;
+package direct.supplier.holder;
 
 import java.util.Objects;
 import java.util.Stack;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import dierct.supplier.SupplierSupplier;
+import direct.supplier.SupplierSupplier;
 
 /**
  * This supplier actually can create a holder for stack thread local.

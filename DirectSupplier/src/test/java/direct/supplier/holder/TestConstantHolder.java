@@ -1,11 +1,11 @@
 package direct.supplier.holder;
 
-import static dierct.supplier.holder.ConstantHolder.constant;
+import static direct.supplier.holder.ConstantHolder.constant;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import dierct.supplier.holder.ConstantHolder;
+import direct.supplier.holder.ConstantHolder;
 
 public class TestConstantHolder {
     

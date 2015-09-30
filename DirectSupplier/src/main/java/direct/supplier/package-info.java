@@ -3,4 +3,4 @@
  * 
  * @author NawaMan
  */
-package dierct.supplier;
+package direct.supplier;

@@ -1,4 +1,4 @@
-package dierct.supplier.holder;
+package direct.supplier.holder;
 
 import java.text.SimpleDateFormat;
 import java.util.Objects;

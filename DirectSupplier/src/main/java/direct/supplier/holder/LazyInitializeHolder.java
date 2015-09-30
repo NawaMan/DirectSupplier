@@ -1,4 +1,4 @@
-package dierct.supplier.holder;
+package direct.supplier.holder;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;

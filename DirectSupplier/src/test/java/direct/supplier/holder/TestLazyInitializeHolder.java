@@ -10,12 +10,12 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
-import dierct.supplier.holder.LazyInitializeHolder;
+import direct.supplier.holder.LazyInitializeHolder;
 
 public class TestLazyInitializeHolder {
     
     @Test
-    public void ensureInitializeOnce()
+    public void ensureInitializeOnce__thisTestWillTakesUpToFiveSeconds()
                 throws Exception {
         final AtomicInteger     count           = new AtomicInteger(5);
         final ArrayList<String> allInitialized  = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 import org.junit.Test;
 
-import dierct.supplier.holder.ThreadLocalHolder;
+import direct.supplier.holder.ThreadLocalHolder;
 
 /**
  * This example shows that a resource supplier used in separate thread can be isolated.

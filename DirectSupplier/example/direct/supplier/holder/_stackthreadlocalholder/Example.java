@@ -1,8 +1,8 @@
 package direct.supplier.holder._stackthreadlocalholder;
 
-import dierct.supplier.holder.StackThreadLocalHolder;
-import dierct.supplier.holder.ThreadLocalHolder;
+import direct.supplier.holder.StackThreadLocalHolder;
 import direct.supplier.holder.TestStackThreadLocalHolder;
+import direct.supplier.holder.ThreadLocalHolder;
 
 /**
  * See the example in {@link TestStackThreadLocalHolder}.
