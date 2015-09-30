@@ -46,7 +46,7 @@ public class ThreadLocalHolder<R> implements Supplier<R> {
      * {@inheritDoc}
      **/
     @Override
-    public R get() {
+    public final R get() {
         return this.resource.get();
     }
     

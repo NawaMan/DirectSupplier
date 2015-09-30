@@ -52,7 +52,7 @@ public class StackThreadLocalHolder<R>
     }
     
     @Override
-    public R get() {
+    public final R get() {
         if (this.resource.get().isEmpty()) {
             return null;
         } else {
@@ -65,7 +65,7 @@ public class StackThreadLocalHolder<R>
      * 
      * @return the instance.
      **/
-    public R pushNew() {
+    public final R pushNew() {
         R previous = !this.isEmpty() ? this.peek() : null;
         R resource = this.creator.apply(previous);
         this.resource.get().push(resource);
@@ -78,7 +78,7 @@ public class StackThreadLocalHolder<R>
      * @param  resource  the resource.
      * @return  the resource.
      */
-    public R push(
+    public final R push(
             final R resource) {
         this.resource.get().push(resource);
         return resource;
@@ -89,7 +89,7 @@ public class StackThreadLocalHolder<R>
      * 
      * @return the top element.
      */
-    public R pop() {
+    public final R pop() {
         return this.resource.get().pop();
     }
     
@@ -98,7 +98,7 @@ public class StackThreadLocalHolder<R>
      * 
      * @return the top element.
      */
-    public R peek() {
+    public final R peek() {
         return this.resource.get().peek();
     }
     
@@ -107,7 +107,7 @@ public class StackThreadLocalHolder<R>
      * 
      * @return {@code true} of the stack is empty.
      */
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
         return this.resource.get().isEmpty();
     }
     
@@ -116,7 +116,7 @@ public class StackThreadLocalHolder<R>
      * 
      * @return the size.
      */
-    public int size() {
+    public final int size() {
         return this.resource.get().size();
     }
     
