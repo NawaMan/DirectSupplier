@@ -83,4 +83,45 @@ public class ChangeableHolderTest {
         assertEquals("42", holder.get());
     }
     
+    @Test
+    public void currentValueIsAsExpectedSoSupply_withKey() {
+        Object key = new Object();
+        holder = createHolder(key);
+        assertEquals(INIT_VALUE, holder.get());
+        
+        String newValue ="42";
+        
+        holder.compareAndSupply(key, INIT_VALUE, ()->newValue);
+        assertEquals(newValue, holder.get());
+    }
+    
+    @Test
+    public void currentValueIsAsExpectedSoUpdate_withKey() {
+        Object key = new Object();
+        holder = createHolder(key);
+        assertEquals(INIT_VALUE, holder.get());
+        
+        holder.checkAndUpdate(key, v->INIT_VALUE.equals(v), v->v + "1");
+        assertEquals((INIT_VALUE + 1), holder.get());
+    }
+    
+    @Test
+    public void currentValueIsAsExpectedSoSupply_withoutKey() {
+        holder = createHolder(NOKEY);
+        assertEquals(INIT_VALUE, holder.get());
+        
+        String newValue ="42";
+        
+        holder.compareAndSupply(INIT_VALUE, ()->newValue);
+        assertEquals(newValue, holder.get());
+    }
+    
+    @Test
+    public void currentValueIsAsExpectedSoUpdate_withoutKey() {
+        holder = createHolder(NOKEY);
+        assertEquals(INIT_VALUE, holder.get());
+        
+        holder.checkAndUpdate(v->INIT_VALUE.equals(v), v->v + "1");
+        assertEquals((INIT_VALUE + 1), holder.get());
+    }
 }
